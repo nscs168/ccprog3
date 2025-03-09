@@ -489,7 +489,7 @@ public class VendingMachineModel{
      * @param itemSlots the array representing the item slots in the vending machine
      * @param totalAmountCollected the total sales accumulated by the vending machine
      * @throws IndexOutOfBoundsException if the 'selectedSlot' is invalid
-     */
+     
     public void restockItem(int selectedSlot, int restockQuantity, int startingInventory[], int salesTracker[],
                             Item itemSlots[], double totalAmountCollected) {
         int oldQuantity, newQuantity;
@@ -522,6 +522,24 @@ public class VendingMachineModel{
             res = true;
         }
     }
+
+    */
+
+    public void restockItem(int selectedSlot, int restockQuantity, int[] startingInventory, int[] salesTracker,
+                        Item[] itemSlots, double totalAmountCollected) {
+    
+        // Compute remaining stock
+        startingInventory = InventoryUtility.computeRemainingStock(startingInventory, salesTracker);
+
+        // Reset sales tracker and total sales
+        InventoryUtility.resetSalesTracker(salesTracker);
+        totalAmountCollected = InventoryUtility.resetTotalAmountCollected();
+
+        // Restock the item
+        InventoryUtility.restock(itemSlots, selectedSlot, restockQuantity, startingInventory);
+}
+
+
 
     /**
      * Copies the records of the vending machine to temporary storage including
