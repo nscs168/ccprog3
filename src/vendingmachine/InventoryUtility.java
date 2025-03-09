@@ -7,12 +7,11 @@ public class InventoryUtility {
     /**
      * Computes the remaining stock for each slot after sales.
      */
-    public static int[] computeRemainingStock(int[] startingInventory, int[] salesTracker) {
-        int[] difference = new int[startingInventory.length];
+    public static int computeRemainingStock(int startingInventory, int salesTracker) {
+        int difference = 0;
 
-        for (int slot = 0; slot < startingInventory.length; slot++) {
-            difference[slot] = startingInventory[slot] - salesTracker[slot];
-        }
+        difference = startingInventory - salesTracker;
+   
         return difference;
     }
 

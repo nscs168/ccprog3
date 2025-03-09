@@ -527,7 +527,10 @@ public class VendingMachineModel{
 
     public void restockItem(int selectedSlot, int restockQuantity, int[] startingInventory, int[] salesTracker, Item[] itemSlots) {
 
-        startingInventory = InventoryUtility.computeRemainingStock(startingInventory, salesTracker);
+        for (int slot = 0; slot < startingInventory.length; slot++) {
+            startingInventory[slot] = InventoryUtility.computeRemainingStock(startingInventory[slot], salesTracker[slot]);
+        }
+
         InventoryUtility.restock(itemSlots, selectedSlot, restockQuantity, startingInventory);
     }
 
