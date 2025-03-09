@@ -525,19 +525,16 @@ public class VendingMachineModel{
 
     */
 
-    public void restockItem(int selectedSlot, int restockQuantity, int[] startingInventory, int[] salesTracker,
-                        Item[] itemSlots, double totalAmountCollected) {
-    
-        // Compute remaining stock
-        startingInventory = InventoryUtility.computeRemainingStock(startingInventory, salesTracker);
+    public void restockItem(int selectedSlot, int restockQuantity, int[] startingInventory, int[] salesTracker, Item[] itemSlots) {
 
-        // Reset sales tracker and total sales
+        startingInventory = InventoryUtility.computeRemainingStock(startingInventory, salesTracker);
+        InventoryUtility.restock(itemSlots, selectedSlot, restockQuantity, startingInventory);
+    }
+
+    public void resetSalesData(int[] salesTracker, double totalAmountCollected) {
         InventoryUtility.resetSalesTracker(salesTracker);
         totalAmountCollected = InventoryUtility.resetTotalAmountCollected();
-
-        // Restock the item
-        InventoryUtility.restock(itemSlots, selectedSlot, restockQuantity, startingInventory);
-}
+    }
 
 
 

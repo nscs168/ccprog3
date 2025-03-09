@@ -742,21 +742,23 @@ public class VendingMachineController {
 
                     int oldQuantity = 0, newQuantity = 0;
                     
-                    if(type == 0){
-                        oldQuantity = model.getItemQuantity(model.rvm.getItemSlots(), tempInt1);
-                        model.restockItem(tempInt1, tempInt2, model.rvm.getStartingInventory(),
-                                        model.rvm.getSalesTracker(), model.rvm.getItemSlots(), model.rvm.getTotalCollected());
-                        newQuantity = model.getItemQuantity(model.rvm.getItemSlots(), tempInt1);
-                    }
-                    else if(type == 1){
-                        oldQuantity = model.getItemQuantity(model.svm.getItemSlots(), tempInt1);
-                        model.restockItem(tempInt1, tempInt2, model.svm.getStartingInventory(),
-                                        model.svm.getSalesTracker(), model.svm.getItemSlots(), model.svm.getTotalCollected());
-                        newQuantity = model.getItemQuantity(model.svm.getItemSlots(), tempInt1);
-                    }
+                                                
+                    // Directly assign rvm or svm without using an abstract type
+                    RegularVendingMachine machine = (type == 0) ? model.rvm : model.svm;
+
+                    oldQuantity = model.getItemQuantity(machine.getItemSlots(), tempInt1);
+
+                    // Restock the item
+                    model.restockItem(tempInt1, tempInt2, machine.getStartingInventory(), machine.getSalesTracker(), machine.getItemSlots());
+
+                    // Reset sales data after restocking
+                    model.resetSalesData(machine.getSalesTracker(), machine.getTotalCollected());
+
+                    newQuantity = model.getItemQuantity(machine.getItemSlots(), tempInt1);
+
 
                     view.displayTxtA.setText("Restock successful!\n");
-                    view.displayTxtA.append("Old Quantity: " + oldQuantity + "\n");
+                    view.displayTxtA.append("Old Quantity of : " + oldQuantity + "\n");
                     view.displayTxtA.append("New Quantity: " + newQuantity + "\n");
 
                     stage -= 3;
